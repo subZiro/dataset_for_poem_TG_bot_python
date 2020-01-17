@@ -9,6 +9,7 @@ import re
 
 
 
+
 def f_read_files_in_folder(foldername:str):
 	# read txt files in folder
 	
@@ -127,8 +128,28 @@ def f_array_to_BATSD(array:list):
 	date_stih = [x.replace('>', '').replace('<', '') for x in date_stih]
 
 
-
 	return name_book, author, title_stih,  date_stih, stih_list
+
+
+def f_array_stih(array:list):
+	# array of stih
+
+	#--add stih_list--#
+	stih_list = [elem for elem in array[3:] if len(elem) > 50]
+	print(len(stih_list))
+	#poem_book = ['name_book', 'author', 'title_stih', 'stih', 'date_stih']
+	result = [['', '', '', '', '']] * len(stih_list)
+
+	for i in range(len(stih_list)):
+		for j in range(len(result[i])):
+			result[i][j] = 
+
+	print(result)
+
+
+
+
+
 
 
 
@@ -150,6 +171,9 @@ for file in files_list:
 	txt_l = f_read_txt(file)
 	txt_l = f_correct_book(txt_l)
 
+	f_array_stih(txt_l)
+
+	'''
 	if txt_l[0] not in name_book:
 		n, a, t, d, s = f_array_to_BATSD(txt_l)
 
@@ -158,6 +182,7 @@ for file in files_list:
 	title_stih.extend(t)
 	date_stih.extend(d)
 	stih_list.extend(s)
+	'''
 
 	#os.remove(file)
 
@@ -166,7 +191,7 @@ for file in files_list:
 
 
 #print(name_book)
-print(author)
+#print(author)
 #print(title_stih)
 #print(date_stih)
 
