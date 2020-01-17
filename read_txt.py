@@ -77,24 +77,19 @@ def f_correct_book(array:list):
 
 def f_array_to_BATSD(array:list):
 	# принимает список и возвращает 
-	# списки 'name_book', 'author', 'title_stih', 'date_stih', 'stih_list'
-	name_book, author, title_stih, date_stih, stih_list = [], [], [], [], []
-	
-	#--add stih_list--#
-	stih_list = [elem for elem in array[3:] if len(elem) > 50]
+	# name_book - название книги, author - автор стихов, 
+	# title_stih - название стиха, stih_list - стихотворение, date_stih - дата написания стиха
 
+	title_stih, date_stih = [], []
+	
 	#--add name_book--#
-	name_book = [array[0] for _ in range(len(stih_list))]
+	name_book = array[0]
 
 	#--add author_stih--#
-	author = [array[1] for _ in range(len(stih_list))]
+	author = array[1]
 
-
-	'''
-	name_book = [array[0] for _ in range(len(stih_list))]
-	author = [array[1] for _ in range(len(stih_list))]
-	title_stih = [array[array.index(elem) - 1] for elem in stih_list]
-	'''
+	#--add stih_list--#
+	stih_list = [elem for elem in array[3:] if len(elem) > 50]
 
 	#--add title--#
 	for i in range(len(stih_list)):
@@ -109,7 +104,6 @@ def f_array_to_BATSD(array:list):
 				title_stih.append('* * *')
 			else:
 				title_stih.append(array[stih_index-1])
-
 
 	#--add date to stih--#
 	for i in range(len(stih_list)):
@@ -127,22 +121,46 @@ def f_array_to_BATSD(array:list):
 	#--replace <> in date_stih--#
 	date_stih = [x.replace('>', '').replace('<', '') for x in date_stih]
 
+	return name_book, author, title_stih, stih_list, date_stih
 
-	return name_book, author, title_stih,  date_stih, stih_list
 
 
+def f_concat_natds(n, a, t, s, d):
+	# concat book data to one array
+	result = [[n, a, t[i], s[i], d[i]] for i in range(len(s))]
+
+	return result
+
+
+
+
+
+# delete 
 def f_array_stih(array:list):
 	# array of stih
 
 	#--add stih_list--#
 	stih_list = [elem for elem in array[3:] if len(elem) > 50]
-	print(len(stih_list))
+	
 	#poem_book = ['name_book', 'author', 'title_stih', 'stih', 'date_stih']
 	result = [['', '', '', '', '']] * len(stih_list)
 
+
 	for i in range(len(stih_list)):
-		for j in range(len(result[i])):
-			result[i][j] = 
+		#--add name_book--#
+		result[i][0] = array[0]
+
+		#--add author_stih--#
+		result[i][1] = array[1]
+
+		#--add stih_list--#
+		result[i][3] = stih_list[i]
+
+		#--add title--#
+		result[i][2] = 0
+
+		#--add date to stih--#
+		result[i][4] = 0
 
 	print(result)
 
@@ -158,35 +176,39 @@ def f_array_stih(array:list):
 # add txt file in folder to read list
 files_list = f_read_files_in_folder('txt_books')
 
-print(files_list)
-name_book = []
-author = []
-title_stih = []
-date_stih = []
+
+
 stih_list = []
 
+dataset = []
 
 # read txt file in files list
 for file in files_list:
-	txt_l = f_read_txt(file)
+	txt_l = f_read_txt(file) 
 	txt_l = f_correct_book(txt_l)
+	n, a, t, s, d = f_array_to_BATSD(txt_l)
+	book = f_concat_natds(n, a, t, s, d)
 
-	f_array_stih(txt_l)
+	b = [item[3] for item in book]
 
-	'''
-	if txt_l[0] not in name_book:
-		n, a, t, d, s = f_array_to_BATSD(txt_l)
-
-	name_book.extend(n)
-	author.extend(a)
-	title_stih.extend(t)
-	date_stih.extend(d)
-	stih_list.extend(s)
-	'''
-
-	#os.remove(file)
+	for i in range(len(b)):
+		if b[i] not in [item[3] for item in dataset]:
+			dataset.extend(book)
 
 
+	os.remove(file)  # удаление сканированноего файла
+
+
+
+
+print(len(stih_list))
+print(len(dataset))
+
+
+for stih in dataset:
+	for line in stih:
+		print(line)
+	print('**********')
 
 
 
@@ -199,22 +221,5 @@ for file in files_list:
 for stih in stih_list:
 	print(stih, end='\n\n')
 '''
-
-
-
-
-
-
-#book = f_correct_book(book_li)
-
-#name_book, author, title_stih, date_stih, stih_list = f_array_to_BATSD(book)
-
-
-
-'''
-poem_book = ['name_book', 'author', 'title_stih', 'date_stih', 'stih']
-
-'''
-
 
 
