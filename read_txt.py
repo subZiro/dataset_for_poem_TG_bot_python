@@ -124,48 +124,11 @@ def f_array_to_BATSD(array:list):
 	return name_book, author, title_stih, stih_list, date_stih
 
 
-
 def f_concat_natds(n, a, t, s, d):
 	# concat book data to one array
 	result = [[n, a, t[i], s[i], d[i]] for i in range(len(s))]
 
 	return result
-
-
-
-
-
-# delete 
-def f_array_stih(array:list):
-	# array of stih
-
-	#--add stih_list--#
-	stih_list = [elem for elem in array[3:] if len(elem) > 50]
-	
-	#poem_book = ['name_book', 'author', 'title_stih', 'stih', 'date_stih']
-	result = [['', '', '', '', '']] * len(stih_list)
-
-
-	for i in range(len(stih_list)):
-		#--add name_book--#
-		result[i][0] = array[0]
-
-		#--add author_stih--#
-		result[i][1] = array[1]
-
-		#--add stih_list--#
-		result[i][3] = stih_list[i]
-
-		#--add title--#
-		result[i][2] = 0
-
-		#--add date to stih--#
-		result[i][4] = 0
-
-	print(result)
-
-
-
 
 
 
@@ -177,49 +140,25 @@ def f_array_stih(array:list):
 files_list = f_read_files_in_folder('txt_books')
 
 
-
-stih_list = []
-
 dataset = []
 
 # read txt file in files list
-for file in files_list:
-	txt_l = f_read_txt(file) 
-	txt_l = f_correct_book(txt_l)
-	n, a, t, s, d = f_array_to_BATSD(txt_l)
-	book = f_concat_natds(n, a, t, s, d)
+for file in files_list:  
+	txt_l = f_read_txt(file)   # список построчно считанного файла
+	txt_l = f_correct_book(txt_l)   # список вида book,author,title,stih,date,title,stih,date...
+	n, a, t, s, d = f_array_to_BATSD(txt_l)   # извлечение из списка разделов
+	book = f_concat_natds(n, a, t, s, d)   # сбор в список стихов
 
-	b = [item[3] for item in book]
+	b = [item[3] for item in book]   # список стихов из сканируеммого файла
 
+	#----если такого стиха нет в датасете то добавляем его----#
 	for i in range(len(b)):
 		if b[i] not in [item[3] for item in dataset]:
 			dataset.extend(book)
 
-
-	os.remove(file)  # удаление сканированноего файла
-
+	#os.remove(file)  # удаление сканированноего файла
 
 
 
-print(len(stih_list))
-print(len(dataset))
-
-
-for stih in dataset:
-	for line in stih:
-		print(line)
-	print('**********')
-
-
-
-#print(name_book)
-#print(author)
-#print(title_stih)
-#print(date_stih)
-
-'''
-for stih in stih_list:
-	print(stih, end='\n\n')
-'''
 
 
