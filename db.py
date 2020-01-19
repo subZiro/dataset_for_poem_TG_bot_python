@@ -14,14 +14,6 @@ import read_txt
 
 
 
-#--чтение txt файлов в папке--#
-d = read_txt.dataset
-
-#--подключение к базеданных--#
-con = sqlite3.connect(create_db.file_db, check_same_thread=False)
-
-
-
 def f_select_all_db():
 	# выборка из базы, возвращает кортеж из всех записей
 
@@ -30,8 +22,6 @@ def f_select_all_db():
 	records = cursor.fetchall()
 
 	return records
-    
-
 
 
 def f_insert_db(data):
@@ -52,8 +42,7 @@ def f_insert_db(data):
 			print('данные уже существуют в базе')
 		
 	con.commit()
-
-		
+	
 		
 
 def f_select_random_poem():
@@ -77,6 +66,7 @@ def f_delete_table_db():
 				title_stih text, 
 				stih text, 
 				date_stih text);""")
+	print('db clear')
 
 
 def f_update_db():
@@ -88,6 +78,12 @@ def f_update_db():
 
 
 
+#--чтение txt файлов в папке--#
+d = read_txt.dataset
+
+#--подключение к базеданных--#
+con = sqlite3.connect(create_db.file_db, check_same_thread=False)
+
 #--работа с базой данных--#
 with con: 
 	cursor = con.cursor()
@@ -95,7 +91,7 @@ with con:
 		f_insert_db(d)
 
 	#---delete and create db---#
-    #f_delete_table_db()
+	#f_delete_table_db()
 
 	
 	'''
