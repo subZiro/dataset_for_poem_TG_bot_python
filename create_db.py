@@ -13,7 +13,7 @@ def f_create_table_db(file_db:str):
 	
 	if not os.path.exists(file_db):  # провенрка существует ли файл
 		try:
-			conn = sqlite3.connect(file_db)  # создание db
+			conn = sqlite3.connect(file_db, check_same_thread=False)  # создание db
 			cursor = conn.cursor()
 			cursor.execute("""CREATE TABLE poems
 				(poem_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
