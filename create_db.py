@@ -22,12 +22,15 @@ def f_create_table_db(file_db:str):
 				title_stih text, 
 				stih text, 
 				date_stih text)""")
-
+			con.commit()
 			print('database created!!!')
+
 		except sqlite3.Error as e:
 			print(f'Error: {e}')
-		else:
-			conn.commit()
+			
+		finally:
+			if con:
+				con.close()
 
 
 
